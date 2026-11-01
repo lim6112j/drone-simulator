@@ -96,6 +96,16 @@ pub struct Params {
     pub sim: SimParams,
 }
 
+impl Params {
+    pub fn to_toml(&self) -> String {
+        toml::to_string_pretty(self).expect("params serialization cannot fail")
+    }
+
+    pub fn from_toml(s: &str) -> Result<Self, toml::de::Error> {
+        toml::from_str(s)
+    }
+}
+
 /// 스모크 테스트 (Task 1)
 #[cfg(test)]
 mod smoke {
