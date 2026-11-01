@@ -12,7 +12,7 @@ const PX_PER_M: f32 = 60.0;
 const TRAIL_S: f32 = 10.0;
 
 /// 세계 좌표 쌍 → 화면 좌표. up_axis는 위쪽 양의 방향 성분.
-fn world_to_screen(rect: Rect, origin: Pos2, horizontal: f32, vertical: f32) -> Pos2 {
+fn world_to_screen(_rect: Rect, origin: Pos2, horizontal: f32, vertical: f32) -> Pos2 {
     Pos2::new(
         origin.x + horizontal * PX_PER_M,
         origin.y - vertical * PX_PER_M,

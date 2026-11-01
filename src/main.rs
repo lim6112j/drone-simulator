@@ -33,6 +33,24 @@ fn install_korean_font(ctx: &egui::Context) {
 }
 
 fn main() -> eframe::Result {
+    // CLI: cargo run -- examples/real_drone_5inch.toml 처럼 실측 스펙을 지정할 수 있다.
+    let params = match std::env::args().nth(1) {
+        Some(path) => {
+            let p = drone_training::params::Params::from_toml_file(std::path::Path::new(&path));
+            match p {
+                Ok(p) => {
+                    println!("실측 스펙 로드: {path}");
+                    p
+                }
+                Err(e) => {
+                    eprintln!("경고: {e}\n기본 파라미터로 시작합니다.");
+                    drone_training::params::Params::default()
+                }
+            }
+        }
+        None => drone_training::params::Params::default(),
+    };
+
     let options = eframe::NativeOptions {
         viewport: eframe::egui::ViewportBuilder::default()
             .with_inner_size([1280.0, 800.0])
@@ -44,7 +62,7 @@ fn main() -> eframe::Result {
         options,
         Box::new(|cc| {
             install_korean_font(&cc.egui_ctx);
-            Ok(Box::new(DroneApp::new()))
+            Ok(Box::new(DroneApp::with_params(params)))
         }),
     )
 }

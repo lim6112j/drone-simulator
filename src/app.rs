@@ -24,7 +24,12 @@ impl Default for DroneApp {
 
 impl DroneApp {
     pub fn new() -> Self {
-        let draft = Params::default();
+        Self::with_params(Params::default())
+    }
+
+    /// 실제 기체 실측 스펙 등으로 시작 (CLI 인자로 TOML 지정 시 사용).
+    pub fn with_params(params: Params) -> Self {
+        let draft = params;
         Self {
             sim: Sim::new(draft.clone()),
             draft,
@@ -32,7 +37,7 @@ impl DroneApp {
             time_scale: 1.0,
             view: View::Side,
             plot_tab: PlotTab::PositionError,
-            selected_preset: Some(Preset::Tuned),
+            selected_preset: None,
         }
     }
 

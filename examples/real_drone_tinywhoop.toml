@@ -1,0 +1,50 @@
+# 65mm 타이니후프 ( indoor whoop ) — 실측 대표값
+#
+# 출처: 공개 스펙·측정 보고의 대표값 범위를 종합한 예제입니다.
+# (0703SE급 브러시드 모터 + 31mm 프로펠러 + 1S 260mAh 기준)
+# 타이니후프는 지연과 모터 관성이 크고 추력 대비가 낮아 5인치와 확연히 다릅니다.
+
+[drone]
+mass = 0.025         # kg — 25g 전비중량 (실측 대표: 22–28g)
+arm_length = 0.033   # m — 65mm 휠베이스 절반
+inertia = [0.00004, 0.00004, 0.00008]  # kg·m² — 초소형 기체 (모멘트 ∝ m·L²)
+tmax = 0.12          # N — 모터 1개 최대 추력 (실측 대표: 10–14g = 0.10–0.14N)
+drag_lin = 0.008     # N·s/m — 작은 기체, 선형 항력 지배
+drag_quad = 0.004    # N·s²/m² — 낮은 종단속도 (~10m/s)
+ang_damp = 0.004     # N·m·s
+yaw_tau_coef = 0.002
+
+[motor]
+# 브러시드 모터 + SPI RX: 순수 지연이 더 큼. 실측 보고 대표: 25–40ms
+delay_s = 0.030
+# 브러시드 모터는 스핀업이 느림. 실측 대표: 60–100ms
+tau_s = 0.080
+
+[gains]
+# 타이니후프는 관성이 작아 게인 스케일이 다름 — 출발점 값.
+pos_kp = 1.0
+vel_kp = 2.0
+vel_ki = 1.0
+vel_kd = 0.0
+att_kp = 3.0
+rate_kp = 0.5
+rate_ki = 1.5
+rate_kd = 0.01
+yaw_att_kp = 3.0
+yaw_rate_kp = 0.4
+yaw_rate_ki = 0.5
+vmax = 2.5
+amax = 5.0
+rate_max = 8.0
+tilt_max_deg = 30.0
+
+[wind]
+base = [0.0, 0.0, 0.0]
+gust = "None"
+amplitude = 0.0
+period_s = 5.0
+
+[sim]
+step_height_m = 1.0
+step_dist_m = 1.5
+step_time_s = 2.0

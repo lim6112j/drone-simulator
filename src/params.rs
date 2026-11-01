@@ -104,6 +104,13 @@ impl Params {
     pub fn from_toml(s: &str) -> Result<Self, toml::de::Error> {
         toml::from_str(s)
     }
+
+    /// 파일에서 파라미터를 읽어온다 (실제 기체 실측 스펙 적용용).
+    pub fn from_toml_file(path: &std::path::Path) -> Result<Self, String> {
+        let s = std::fs::read_to_string(path)
+            .map_err(|e| format!("파일 읽기 실패 {}: {e}", path.display()))?;
+        Self::from_toml(&s).map_err(|e| format!("TOML 파싱 실패 {}: {e}", path.display()))
+    }
 }
 
 /// 스모크 테스트 (Task 1)
@@ -117,5 +124,22 @@ mod smoke {
         assert!(p.drone.mass > 0.0);
         assert!(p.motor.delay_s >= 0.0);
         assert!(p.gains.pos_kp > 0.0);
+    }
+
+    #[test]
+    fn from_toml_file_loads_real_drone_example() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("examples/real_drone_5inch.toml");
+        let p = Params::from_toml_file(&path).expect("real drone example must parse");
+        assert!((0.3..=2.0).contains(&p.drone.mass), "mass in kg");
+        assert!((4.0..=40.0).contains(&p.drone.tmax), "thrust in N per motor");
+        assert!((0.0..=0.3).contains(&p.motor.delay_s), "delay seconds");
+        assert!((0.01..=0.5).contains(&p.motor.tau_s), "tau seconds");
+    }
+
+    #[test]
+    fn from_toml_file_reports_missing_file() {
+        let p = Params::from_toml_file(std::path::Path::new("nonexistent.toml"));
+        assert!(p.is_err());
     }
 }

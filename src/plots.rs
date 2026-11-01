@@ -40,7 +40,7 @@ pub fn draw_bottom(ui: &mut egui::Ui, sim: &Sim, tab: &mut PlotTab) {
         PlotTab::PositionError => {
             Plot::new("pos_err_plot")
                 .legend(egui_plot::Legend::default())
-                .y_axis_width(48)
+                .y_axis_min_width(48.0)
                 .show(ui, |plot_ui| {
                     let pts: PlotPoints = h
                         .t
@@ -54,7 +54,7 @@ pub fn draw_bottom(ui: &mut egui::Ui, sim: &Sim, tab: &mut PlotTab) {
         PlotTab::Attitude => {
             Plot::new("att_plot")
                 .legend(egui_plot::Legend::default())
-                .y_axis_width(48)
+                .y_axis_min_width(48.0)
                 .show(ui, |plot_ui| {
                     let n = h.t.len();
                     let line = |name: &str, idx: usize, rad: bool| {
@@ -74,7 +74,7 @@ pub fn draw_bottom(ui: &mut egui::Ui, sim: &Sim, tab: &mut PlotTab) {
         PlotTab::MotorOutputs => {
             Plot::new("motor_plot")
                 .legend(egui_plot::Legend::default())
-                .y_axis_width(48)
+                .y_axis_min_width(48.0)
                 .show(ui, |plot_ui| {
                     let n = h.t.len();
                     for (idx, name) in ["FL", "FR", "RL", "RR"].iter().enumerate() {

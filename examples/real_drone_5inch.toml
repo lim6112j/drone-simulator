@@ -1,0 +1,52 @@
+# 5인치 프리스타일 쿼드 — 실측 대표값
+#
+# 출처: 공개 스펙·스러스트 스탠드 측정 보고의 대표값 범위를 종합한 예제입니다.
+# (iFlight/T-Motor 2207급 모터 + 5인치 프로펠러 기준)
+# 자체 측정치가 있으면 아래 값을 교체하세요. 게인은 기체가 바뀌면 재튜닝이 필요합니다.
+
+[drone]
+mass = 0.60          # kg — 4S 배터리 포함 전비중량 (실측 대표: 0.55–0.75 kg)
+arm_length = 0.113   # m — 5인치 프레임 휠베이스 226mm의 절반
+inertia = [0.003, 0.003, 0.006]  # kg·m² — 5인치 프레임 실측 대표 (롤≈피치 < 요)
+tmax = 14.0          # N — 모터 1개 최대 정적 추력 (5" 2207 @4S: 약 1.3–1.6 kgf)
+drag_lin = 0.05      # N·s/m — 선형 항력 계수
+drag_quad = 0.10     # N·s²/m² — 제곱 항력 계수 (5인치 프레임 종단속도 ~30m/s 근처)
+ang_damp = 0.10      # N·m·s — 공기역학적 회전 감쇠
+yaw_tau_coef = 0.03  # 요 토크 계수 (프로펠러 반작용)
+
+[motor]
+# 순수 지연: FC 루프(8kHz≈0.125ms) + DShot600 + ESC 반응 + 통신 누적.
+# 실측 보고 대표: 15–25ms
+delay_s = 0.018
+# 시상수: 스러스트 스탠드 스텝 응답에서 측정한 모터+프로펠러 스핀업 관성.
+# 5인치 프리스타일 실측 대표: 40–70ms
+tau_s = 0.055
+
+[gains]
+# 캐스케이드 게인 — 위 스펙(600g, 14N)에 맞춘 출발점. 기체마다 재튜닝 필요.
+pos_kp = 1.0
+vel_kp = 2.0
+vel_ki = 1.0
+vel_kd = 0.0
+att_kp = 3.0
+rate_kp = 0.5
+rate_ki = 1.5
+rate_kd = 0.01
+yaw_att_kp = 3.0
+yaw_rate_kp = 0.4
+yaw_rate_ki = 0.5
+vmax = 2.5
+amax = 5.0
+rate_max = 8.0
+tilt_max_deg = 30.0
+
+[wind]
+base = [0.0, 0.0, 0.0]
+gust = "None"
+amplitude = 0.0
+period_s = 5.0
+
+[sim]
+step_height_m = 2.0
+step_dist_m = 3.0
+step_time_s = 2.0
