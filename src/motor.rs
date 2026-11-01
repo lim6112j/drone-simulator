@@ -30,6 +30,11 @@ impl Motor {
         self.delay_line.resize(steps, 0.0);
     }
 
+    /// 시상수 변경 (실행 중 슬라이더 반영용).
+    pub fn set_tau(&mut self, tau_s: f32) {
+        self.tau_s = tau_s;
+    }
+
     pub fn step(&mut self, command: f32) -> f32 {
         let delayed = if self.delay_steps == 0 {
             command
@@ -49,6 +54,10 @@ impl Motor {
 
     pub fn omega(&self) -> f32 {
         self.state
+    }
+
+    pub fn tau(&self) -> f32 {
+        self.tau_s
     }
 
     pub fn reset(&mut self) {
