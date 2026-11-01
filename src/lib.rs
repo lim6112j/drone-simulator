@@ -15,7 +15,7 @@ mod smoke {
 
     #[test]
     fn params_module_exists_and_constructs() {
-        let p = Params { placeholder: 1.0 };
-        assert_eq!(p.placeholder, 1.0);
+        let p = Params::default();
+        assert!(p.drone.mass > 0.0, "Params must be fully constructed");
     }
 }

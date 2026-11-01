@@ -68,10 +68,12 @@ impl Drone {
         let sum_t = t_fl + t_fr + t_rl + t_rr;
 
         let a = p.arm_length;
+        // 스칼라 토크 크기: 롤(좌측 상승 +), 피치(전방 상승 +), 요(대각차)
         let tau_roll = a * (t_rl + t_fl) - a * (t_fr + t_rr);
         let tau_pitch = a * (t_fl + t_fr) - a * (t_rl + t_rr);
         let tau_yaw = p.yaw_tau_coef * (t_fl + t_rr - t_fr - t_rl);
-        let tau = Vector3::new(tau_roll, tau_pitch, tau_yaw);
+        // 좌표계 변환: x=전방, y=좌측, z=상방에서 전방-상승 토크는 −y 회전이다.
+        let tau = Vector3::new(tau_roll, -tau_pitch, tau_yaw);
 
         // 각속도 (기체 좌표계, 준-암시적)
         let i = Vector3::new(p.inertia[0], p.inertia[1], p.inertia[2]);
