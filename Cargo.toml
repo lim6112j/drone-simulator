@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 eframe = "0.33"
 egui = "0.33"
-egui_plot = "0.33"
+egui_plot = "0.34"
 nalgebra = "0.34"
 serde = { version = "1", features = ["derive"] }
 toml = "0.9"
